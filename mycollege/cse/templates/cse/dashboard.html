@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<style>
+     body {
+      
+  background-image: url('');
+  background-repeat: no-repeat;
+  background-attachment: fixed; 
+  background-size: 100% 100%;
+}
+a{
+  text-decoration: none;
+}
+.btn:hover{
+  border-color:red;
+  color: red;
+  background-color: black;
+}
+
+.hov:hover{
+  background-color:black;
+  border-color:red;
+  color: red;  
+}
+.btn-pink{
+  background-color: rgb(214, 43, 86);
+}
+</style>
+
+  <title>Document</title>
+</head>
+<body>
+  dashboard <br>
+  <h1 class="text-center "> welocme  {{user}}</h1>
+  <br>
+         
+
+
+       <div class="d-flex justify-content-center ">
+         <form action="" class="" >
+          <div class="input-group">
+            <input class="hov" type="text" name="search" id="saerch" placeholder="sarch First Name"> 
+            <input class="hov btn-warning" type="submit" value="search">
+          &nbsp;
+          <a href="{% url 'dashboard' %}">
+            <input type="button" class="hov btn-warning " value="All">
+          </a> 
+        </div> 
+         </form>
+        </div>
+
+         <div class="text-end">
+          <a href="/files">
+            <button type="button" 
+            class="btn btn-primary btn-sm" >Add File</button>
+          </a>
+          &nbsp;&nbsp;
+         <a  href="{% url 'logout' %}">
+          <button  type="button" 
+          class="btn btn-danger btn-sm " >logout</button>
+        </a>
+      </div>
+
+        <hr>
+        <table class="table text-center table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Roll No</th>
+              <th scope="col">Name</th>
+              <th scope="col">PRN No</th>
+              <th scope="col">File Information</th>
+              <th scope="col">File</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>            
+            {% for student in students %}
+              {% for file in files %}
+                {% if student.email == file.email %}
+                 <tr>
+                   <th scope="row">{{student.roll_no}}</th>
+                   <td>{{student.first_name}} {{student.last_name}}</td>
+                   <th scope="row">{{student.prn_no}}</th>
+                   <td>{{file.file_information}} </td>
+                   <td>
+                     <a href="/media/{{file.upload_file}}">
+                      <h5>Show File</h5>  
+                    </a>
+                   </td>
+                   {% if student.first_name == user %}
+                    <td>
+                      <a href="{% url 'update' file.id %}">
+                        <button type="button" 
+                        class="btn btn-primary btn-sm" >Update</button>
+                      </a> &nbsp;
+                      <a href="?id={{file.id}}">
+                        <button type="button" 
+                        class="btn btn-danger btn-sm" >Delete</button>
+                      </a>  
+                    </td>
+                  {% else %}
+                    <td></td>
+                  {% endif %}
+                 </tr>
+                 
+                {% endif %}
+              {% endfor %}
+            {% endfor %}
+          </tbody>          
+        </table>
+      
+        {% if  not students %}
+       <h1>Not Found Data</h1>
+        {% endif %}
+       
+</body>
+</html>
